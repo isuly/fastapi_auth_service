@@ -5,6 +5,7 @@ from fastapi import FastAPI
 
 from app.schemas import Registration, Authorization
 from app.redis_service import RedisClient
+from app.utils.code_generator import generate_key
 
 auth_app = FastAPI()
 
@@ -20,11 +21,7 @@ async def get_auth_code(
         user: Registration
 ):
     """Get code for authorization"""
-    # генерируем код
-    # записываем в редис пользователя
-    # емайл: код
-    # возвращаем пользователю код
-    code = "123456"
+    code = generate_key()
     redis = RedisClient()
     redis.client.setex(user.email, timedelta(seconds=30), code)
     return {"code": code}
