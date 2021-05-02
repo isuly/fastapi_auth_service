@@ -16,3 +16,8 @@ python3.9.1
 
 #### Установка зависимостей
 `pip install -r requirements.txt`
+
+## Развертывание локальной инфраструктры
+### Поднять все контейнеры
+
+`cd deployment && docker-compose up -d`
