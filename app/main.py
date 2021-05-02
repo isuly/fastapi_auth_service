@@ -3,8 +3,9 @@ from datetime import timedelta
 import uvicorn
 from fastapi import FastAPI
 
-from app.schemas import Registration, Authorization
+from app.config import TIMEOUT
 from app.redis_service import RedisClient
+from app.schemas import Registration, Authorization
 from app.utils.code_generator import generate_key
 
 auth_app = FastAPI()
@@ -23,7 +24,7 @@ async def get_auth_code(
     """Get code for authorization"""
     code = generate_key()
     redis = RedisClient()
-    redis.client.setex(user.email, timedelta(seconds=30), code)
+    redis.client.setex(user.email, timedelta(seconds=TIMEOUT), code)
     return {"code": code}
 
 
