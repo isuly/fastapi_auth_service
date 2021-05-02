@@ -1,5 +1,10 @@
+from datetime import timedelta
+
 import uvicorn
 from fastapi import FastAPI
+
+from app.schemas import Registration, Authorization
+from app.redis_service import RedisClient
 
 auth_app = FastAPI()
 
@@ -11,15 +16,31 @@ async def root():
 
 
 @auth_app.get("/get_code")
-async def get_auth_code():
+async def get_auth_code(
+        user: Registration
+):
     """Get code for authorization"""
-    pass
+    # генерируем код
+    # записываем в редис пользователя
+    # емайл: код
+    # возвращаем пользователю код
+    code = "123456"
+    redis = RedisClient()
+    redis.client.setex(user.email, timedelta(seconds=30), code)
+    return {"code": code}
 
 
 @auth_app.get("/auth")
-async def auth():
+async def auth(
+        user: Authorization
+):
     """Authorization by phone and code"""
-    pass
+    redis = RedisClient()
+    code = redis.client.get(user.email)
+    if code:
+        if user.code == code.decode("utf-8"):
+            return {"result": "success"}
+    return {"result": "error"}
 
 
 def run_auth_app():
