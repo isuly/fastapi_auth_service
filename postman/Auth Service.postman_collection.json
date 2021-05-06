@@ -7,22 +7,58 @@
 	"item": [
 		{
 			"name": "Get auth code",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"email\": \"isulyfahretdinova@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": ""
+					"raw": "{{api_url}}/get_code",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"get_code"
+					]
 				}
 			},
 			"response": []
 		},
 		{
 			"name": "Authorization",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"email\": \"isulyfahretdinova@gmail.com\",\n\"code\": \"854498\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": ""
+					"raw": "{{api_url}}/auth",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"auth"
+					]
 				}
 			},
 			"response": []
